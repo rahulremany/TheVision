@@ -16,6 +16,7 @@
 		35D9C0AE2C2CCC380082896B /* aesrgan.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 35D9C0AD2C2CCC380082896B /* aesrgan.mlmodel */; };
 		35D9C0B02C2CCC670082896B /* EnhanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9C0AF2C2CCC670082896B /* EnhanceViewController.swift */; };
 		35E85D6C2C54456400555259 /* ObjectRemovalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E85D6B2C54456400555259 /* ObjectRemovalViewController.swift */; };
+		35E85D6E2C584B9600555259 /* Screenshot 2024-07-29 at 3.12.29 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 35E85D6D2C584B9600555259 /* Screenshot 2024-07-29 at 3.12.29 PM.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		35D9C0AD2C2CCC380082896B /* aesrgan.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = aesrgan.mlmodel; sourceTree = "<group>"; };
 		35D9C0AF2C2CCC670082896B /* EnhanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhanceViewController.swift; sourceTree = "<group>"; };
 		35E85D6B2C54456400555259 /* ObjectRemovalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRemovalViewController.swift; sourceTree = "<group>"; };
+		35E85D6D2C584B9600555259 /* Screenshot 2024-07-29 at 3.12.29 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-07-29 at 3.12.29 PM.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				35D9C0AD2C2CCC380082896B /* aesrgan.mlmodel */,
 				35D9C0AF2C2CCC670082896B /* EnhanceViewController.swift */,
 				35E85D6B2C54456400555259 /* ObjectRemovalViewController.swift */,
+				35E85D6D2C584B9600555259 /* Screenshot 2024-07-29 at 3.12.29 PM.png */,
 			);
 			path = TheVision;
 			sourceTree = "<group>";
@@ -136,6 +139,7 @@
 			files = (
 				35D9C0A32C2CCBDB0082896B /* Assets.xcassets in Resources */,
 				35D9C0A62C2CCBDB0082896B /* Base in Resources */,
+				35E85D6E2C584B9600555259 /* Screenshot 2024-07-29 at 3.12.29 PM.png in Resources */,
 				35D9C0A12C2CCBD90082896B /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
