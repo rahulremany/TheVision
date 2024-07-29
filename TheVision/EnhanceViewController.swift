@@ -1,19 +1,43 @@
 import UIKit
 import CoreML
 import Vision
+import Photos
 
 class EnhanceViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var doItForMeButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var uiLabel: UILabel!
     @IBOutlet weak var diffImageBtn: UIButton!
+    @IBOutlet weak var brightnessSlider: UISlider!
+    @IBOutlet weak var saturationSlider: UISlider!
+    @IBOutlet weak var contrastSlider: UISlider!
     @IBOutlet weak var selectImage: UIButton!
+    @IBOutlet weak var brightnessLabel: UILabel!
+    @IBOutlet weak var saturationLabel: UILabel!
+    @IBOutlet weak var contrastLabel: UILabel!
+    @IBOutlet weak var saveLabel: UILabel!
+    @IBOutlet weak var revertButton: UIButton!
+    
+    var originalImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         diffImageBtn.isHidden = true
         imageView.isHidden = true
+        brightnessSlider.isHidden = true
+        saturationSlider.isHidden = true
+        contrastSlider.isHidden = true
+        brightnessLabel.isHidden = true
+        saturationLabel.isHidden = true
+        contrastLabel.isHidden = true
+        doItForMeButton.isHidden = true
+        saveLabel.isHidden = true
+        
+        // Set default slider values
+        brightnessSlider.value = 0
+        contrastSlider.value = 1
+        saturationSlider.value = 1
+        revertButton.isHidden = true // Initially hide the revert button
     }
 
     @IBAction func selectPictureTapped(_ sender: UIButton) {
@@ -27,7 +51,53 @@ class EnhanceViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func doItForMeButtonTapped(_ sender: UIButton) {
         enhanceImageAutomatically()
     }
+    
+    @IBAction func brightnessSliderChanged(_ sender: UISlider) {
+        applyFilters()
+    }
+    
+    @IBAction func saturationSliderChanged(_ sender: UISlider) {
+        applyFilters()
+    }
+    
+    @IBAction func contrastSliderChanged(_ sender: UISlider) {
+        applyFilters()
+    }
+    
+    @IBAction func revertButtonTapped(_ sender: UIButton) {
+        revertToOriginalImage()
+    }
 
+        
+    func showAlert(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
+    func applyFilters() {
+        guard let originalImage = originalImage else { return }
+        guard let cgImage = originalImage.cgImage else { return }
+        
+        let inputImage = CIImage(cgImage: cgImage, options: [CIImageOption.applyOrientationProperty: true])
+        
+        let brightness = brightnessSlider.value // -1.0 to 1.0
+        let contrast = contrastSlider.value * 2.0 // 0.0 to 4.0 (Slider 0.0 to 2.0)
+        let saturation = saturationSlider.value * 2.0 // 0.0 to 2.0
+        
+        let filter = CIFilter(name: "CIColorControls")
+        filter?.setValue(inputImage, forKey: kCIInputImageKey)
+        filter?.setValue(brightness, forKey: kCIInputBrightnessKey)
+        filter?.setValue(contrast, forKey: kCIInputContrastKey)
+        filter?.setValue(saturation, forKey: kCIInputSaturationKey)
+        
+        let context = CIContext(options: nil)
+        if let outputImage = filter?.outputImage,
+           let cgOutputImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            imageView.image = UIImage(cgImage: cgOutputImage, scale: originalImage.scale, orientation: originalImage.imageOrientation)
+        }
+    }
+    
     func enhanceImageAutomatically() {
         guard let image = imageView.image else { return }
 
@@ -60,17 +130,35 @@ class EnhanceViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
+            originalImage = selectedImage // Store the original image
             imageView.image = selectedImage
             imageView.isHidden = false
             selectImage.isHidden = true
             diffImageBtn.isHidden = false
             uiLabel.isHidden = true
+            revertButton.isHidden = false // Show the revert button after an image is selected
+            brightnessSlider.isHidden = false
+            saturationSlider.isHidden = false
+            contrastSlider.isHidden = false
+            brightnessLabel.isHidden = false
+            saturationLabel.isHidden = false
+            contrastLabel.isHidden = false
+            saveLabel.isHidden = false
+            doItForMeButton.isHidden = false
+            
         }
         dismiss(animated: true, completion: nil)
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func revertToOriginalImage() {
+        imageView.image = originalImage
+        brightnessSlider.value = 0
+        contrastSlider.value = 1
+        saturationSlider.value = 1
     }
 }
 

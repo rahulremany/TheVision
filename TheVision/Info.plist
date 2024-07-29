@@ -20,6 +20,8 @@
 				</dict>
 			</array>
 		</dict>
+        <key>NSPhotoLibraryAddUsageDescription</key>
+        <string>We need your permission to save edited images to your photo library.</string>
 	</dict>
 </dict>
 </plist>
